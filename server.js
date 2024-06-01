@@ -14,3 +14,27 @@ mongoose.connect(uri)
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
+
+// User Registration
+const bcrypt = require('bcryptjs');
+const User = require('./models/user');
+
+app.use(express.json()); 
+
+app.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+
+  let user = await User.findOne({ username });
+  if (user) {
+    return res.status(400).json({ msg: 'User already exists' });
+  }
+
+  user = new User({ username, password });
+
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(password, salt);
+
+  await user.save();
+
+  res.send('User registered');
+});
