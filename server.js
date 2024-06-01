@@ -15,7 +15,7 @@ app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
 
-// User Registration
+// User Registration route
 const bcrypt = require('bcryptjs');
 const User = require('./models/user');
 
@@ -38,3 +38,28 @@ app.post('/register', async (req, res) => {
 
   res.send('User registered');
 });
+
+// Login route
+const jwt = require('jsonwebtoken');
+
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  let user = await User.findOne({ username });
+  if (!user) {
+    return res.status(400).json({ msg: 'Invalid Credentials' });
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return res.status(400).json({ msg: 'Invalid Credentials' });
+  }
+
+  const payload = { user: { id: user.id } };
+  jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 360000 }, (err, token) => {
+    if (err) throw err;
+    res.json({ token });
+  });
+});
+
+
