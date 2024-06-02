@@ -62,9 +62,18 @@ app.post('/login', async (req, res) => {
   });
 });
 
-const items = require('./routes/items');
+// Route for items
+const Item = require('./models/item'); 
 
-app.use('/items', items);
+app.get('/items', async (req, res) => {
+  try {
+    const items = await Item.find();
+    res.json(items);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 
 
