@@ -62,4 +62,9 @@ app.post('/login', async (req, res) => {
   });
 });
 
+const items = require('./routes/items');
+
+app.use('/items', items);
+
+
 
