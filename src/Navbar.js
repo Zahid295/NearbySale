@@ -1,21 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Home from './Home';
-import Login from './registration/login';
-import Register from './registration/register';
-import Logout from './registration/logout';
+import Logout from './Logout';
 
-const Navbar = () => {
+function Navbar({ isLoggedIn, onLogout }) {
   return (
     <nav>
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/login">Login</Link></li>
-        <li><Link to="/register">Register</Link></li>
-        <li><Link to="/logout">Logout</Link></li>
-      </ul>
+      <Link to="/">Home</Link>
+      {!isLoggedIn ? (
+        <>
+          <Link to="/register">Register</Link>
+          <Link to="/login">Login</Link>
+        </>
+      ) : (
+        <Logout onLogout={onLogout} />
+      )}
     </nav>
   );
-};
+}
 
 export default Navbar;
