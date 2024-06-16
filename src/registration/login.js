@@ -12,7 +12,8 @@ const Login = ({ onLoginSuccess }) => {
       const config = { headers: { 'Content-Type': 'application/json' } };
       const body = JSON.stringify(credentials);
       await axios.post('http://localhost:5000/login', body, config);
-      onLoginSuccess(); // Update the isLoggedIn state and redirect
+      // Update isLoggedIn and redirect states
+      onLoginSuccess(); 
     } catch (err) {
       console.error(err.response.data);
     }

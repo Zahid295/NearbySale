@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Register = () => {
+const Register = ({ onRegisterSuccess }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -11,8 +11,9 @@ const Register = () => {
     try {
       const config = { headers: { 'Content-Type': 'application/json' } };
       const body = JSON.stringify(newUser);
-      const res = await axios.post('http://localhost:3000/register', body, config);
-      console.log(res.data);
+      await axios.post('http://localhost:3000/register', body, config);
+       // Update isLoggedIn and redirect states
+      onRegisterSuccess();
     } catch (err) {
       console.error(err.response.data);
     }
@@ -21,7 +22,7 @@ const Register = () => {
   return (
     <div>
       <h1>Register</h1>
-      <form onSubmit={(e) => onSubmit(e)}>
+      <form onSubmit={onSubmit}>
         <input
           type="text"
           placeholder="Username"
