@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logout from './Logout';
+import Home from './Home';
+import Login from './registration/login';
+import Register from './registration/register';
+import Logout from './registration/logout';
 
 const Navbar = () => {
   return (
