@@ -161,6 +161,20 @@ router.get('/admin/orders', async (req, res) => {
   }
 });
 
+// Admin route to update order status
+router.put('/admin/orders/:orderId', async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { status } = req.body;
+    // Modify order status
+    await Order.findByIdAndUpdate(orderId, { status });
+    res.json({ message: 'Order status updated successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating order status' });
+  }
+});
+
+
 
 
 module.exports = router;
