@@ -62,4 +62,17 @@ router.post('/admin/logout', (req, res) => {
   res.redirect('/admin/login');
 });
 
+// Admin Routes for handling products
+// Admin route to view all products
+router.get('/admin/products', async (req, res) => {
+  try {
+    // Retrieve products from the database
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching products' });
+  }
+});
+
+
 module.exports = router;
