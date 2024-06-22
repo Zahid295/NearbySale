@@ -87,6 +87,20 @@ router.post('/admin/products', async (req, res) => {
   }
 });
 
+// Admin route to update product details
+router.put('/admin/products/:productId', async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const { name, description, price } = req.body;
+    // Modify product details
+    await Product.findByIdAndUpdate(productId, { name, description, price });
+    res.json({ message: 'Product updated successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating product' });
+  }
+});
+
+
 
 
 module.exports = router;
