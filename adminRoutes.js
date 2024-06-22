@@ -100,7 +100,17 @@ router.put('/admin/products/:productId', async (req, res) => {
   }
 });
 
-
+// Admin route to delete a product
+router.delete('/admin/products/:productId', async (req, res) => {
+  try {
+    const { productId } = req.params;
+    // Remove the product
+    await Product.findByIdAndDelete(productId);
+    res.json({ message: 'Product deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting product' });
+  }
+});
 
 
 module.exports = router;
