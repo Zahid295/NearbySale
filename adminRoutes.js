@@ -112,5 +112,29 @@ router.delete('/admin/products/:productId', async (req, res) => {
   }
 });
 
+// Admin Routes for handling Users
+// Admin route to view all users
+router.get('/admin/users', async (req, res) => {
+  try {
+    // Retrieve users from the database
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching users' });
+  }
+});
+
+// Admin route to update user details
+router.put('/admin/users/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { username, email } = req.body;
+    // Modify user details
+    await User.findByIdAndUpdate(userId, { username, email });
+    res.json({ message: 'User details updated successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating user details' });
+  }
+});
 
 module.exports = router;
