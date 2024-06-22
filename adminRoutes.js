@@ -149,5 +149,18 @@ router.delete('/admin/users/:userId', async (req, res) => {
   }
 });
 
+// Admin Routes to handle Orders
+// Admin route to view all orders
+router.get('/admin/orders', async (req, res) => {
+  try {
+    // Retrieve orders from the database
+    const orders = await Order.find();
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching orders' });
+  }
+});
+
+
 
 module.exports = router;
