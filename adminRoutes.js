@@ -74,5 +74,19 @@ router.get('/admin/products', async (req, res) => {
   }
 });
 
+// Admin route to add a new product
+router.post('/admin/products', async (req, res) => {
+  try {
+    const { name, description, price } = req.body;
+    // Save a new product
+    const newProduct = new Product({ name, description, price });
+    await newProduct.save();
+    res.json({ message: 'Product added successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error adding product' });
+  }
+});
+
+
 
 module.exports = router;
