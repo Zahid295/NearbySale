@@ -174,7 +174,16 @@ router.put('/admin/orders/:orderId', async (req, res) => {
   }
 });
 
-
-
+// Admin route to cancel an order
+router.delete('/admin/orders/:orderId', async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    // Update the order as canceled
+    await Order.findByIdAndUpdate(orderId, { status: 'canceled' });
+    res.json({ message: 'Order canceled successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error canceling order' });
+  }
+});
 
 module.exports = router;
