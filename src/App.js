@@ -34,9 +34,9 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+      <Navbar />
       <Routes>
-      <Route exact path="/" element={isLoggedIn ? <Home /> : <Navigate to="/login" replace />} />
+      <Route exact path="/" element={<Home />} />
       <Route path="/register" element={isLoggedIn ? <Navigate to="/" replace /> : <Register onRegisterSuccess={onRegisterSuccess} />} />
       <Route path="/login" element={isLoggedIn ? <Navigate to="/" replace /> : <Login onLoginSuccess={onLoginSuccess} />} />
       </Routes>

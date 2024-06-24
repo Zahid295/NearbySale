@@ -15,10 +15,13 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Items for Sale</h1>
+      <h1>Welcome to Our Furniture Store</h1>
+      <p>Discover a wide range of high-quality furniture for your home.</p>
+
+      <h2>Items for Sale</h2>
       {items.map((item) => (
         <div key={item._id}>
-          <h2>{item.title}</h2>
+          <h3>{item.title}</h3>
           <p>{item.description}</p>
           <p>{item.price}</p>
         </div>
