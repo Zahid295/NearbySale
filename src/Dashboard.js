@@ -1,25 +1,23 @@
 import React from 'react';
-import { Admin } from 'react-admin';
-import jsonServerProvider from 'ra-data-json-server'; // You can replace this with your actual data provider
-import { Route } from 'react-router-dom';
+import { Admin, Resource } from 'react-admin';
+import jsonServerProvider from 'ra-data-json-server'; 
 
 // Import your custom components for each resource
-import { UserList, UserEdit, UserCreate } from './UserComponents';
-import { ProductList, ProductEdit, ProductCreate } from './ProductComponents';
+import ViewUserList from './components/Users/ViewUserList';
+import UserEdit from './components/UserComponents/UserEdit';
+import UserCreate from './components/UserComponents/UserCreate';
+import ProductList from './components/ProductComponents/ProductList';
+import ProductEdit from './components/ProductComponents/ProductEdit';
+import ProductCreate from './components/ProductComponents/ProductCreate';
 
-const dataProvider = jsonServerProvider('http://localhost:3001'); // Replace with your backend API URL
+
+const dataProvider = jsonServerProvider('http://localhost:3000'); // Replace with your backend API URL
 
 const AdminDashboard = () => {
   return (
     <Admin dataProvider={dataProvider}>
-      {/* Define your custom routes */}
-      <Route exact path="/components/ViewUserList" component={UserList} />
-      <Route exact path="/admin/users/create" component={UserCreate} />
-      <Route exact path="/admin/users/:id" component={UserEdit} />
-
-      <Route exact path="/admin/products" component={ProductList} />
-      <Route exact path="/admin/products/create" component={ProductCreate} />
-      <Route exact path="/admin/products/:id" component={ProductEdit} />
+      <Resource name="users" list={ViewUserList} edit={UserEdit} create={UserCreate} />
+      <Resource name="products" list={ProductList} edit={ProductEdit} create={ProductCreate} />
     </Admin>
   );
 };
