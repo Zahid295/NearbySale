@@ -11,7 +11,7 @@ import ProductEdit from './components/ProductComponents/ProductEdit';
 import ProductCreate from './components/ProductComponents/ProductCreate';
 
 
-const dataProvider = jsonServerProvider('http://localhost:3000'); // Replace with your backend API URL
+const dataProvider = jsonServerProvider('http://localhost:3000'); 
 
 const AdminDashboard = () => {
   return (
