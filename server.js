@@ -1,5 +1,6 @@
 // Import Express framework
 const express = require('express');
+const cors = require('cors');
 const app = express();
 // Connect to MongoDB Atlas
 require('dotenv').config();
@@ -10,14 +11,21 @@ mongoose.connect(uri)
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
 
+const adminRoutes = require('./adminRoutes');
+
+app.use('/admin', adminRoutes);
+
+
 // Start server
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
 
+app.use(cors());
+
 // User Registration route
 const bcrypt = require('bcryptjs');
-const User = require('./models/user');
+const User = require('./models/User');
 
 app.use(express.json()); 
 
@@ -63,17 +71,17 @@ app.post('/login', async (req, res) => {
 });
 
 // Route for items
-const Item = require('./models/item'); 
+// const Item = require('./models/item'); 
 
-app.get('/items', async (req, res) => {
-  try {
-    const items = await Item.find();
-    res.json(items);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
+// app.get('/items', async (req, res) => {
+//   try {
+//     const items = await Item.find();
+//     res.json(items);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send('Server Error');
+//   }
+// });
 
 
 
