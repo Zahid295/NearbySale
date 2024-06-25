@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-// import Navbar from './Navbar';
 import Register from './Registration/Register';
 import Login from './Registration/Login';
 import Home from './Home';
@@ -19,7 +18,8 @@ const App = () => {
   const onLoginSuccess = () => {
     setIsLoggedIn(true);
     // Trigger redirect with update to state
-    setRedirectToHome(true);
+    // setRedirectToHome(true);
+    return <Navigate to="/Home" />;
   };
 
   // const handleLogout = () => {
@@ -34,7 +34,7 @@ const App = () => {
   }
 
   return (
-    <Router>
+    <div>
       {/* <Navbar /> */}
       <Routes>
       <Route exact path="/" element={<Home />} />
@@ -42,7 +42,7 @@ const App = () => {
       <Route path="/register" element={isLoggedIn ? <Navigate to="/" replace /> : <Register onRegisterSuccess={onRegisterSuccess} />} />
       <Route path="/login" element={isLoggedIn ? <Navigate to="/" replace /> : <Login onLoginSuccess={onLoginSuccess} />} />
       </Routes>
-    </Router>
+      </div>
   );
 };
 

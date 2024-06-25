@@ -6,7 +6,6 @@ const ViewUserList = (props) => (
     <Datagrid>
       <TextField source="id" />
       <TextField source="username" />
-      <TextField source="email" />
       <EditButton basePath="/admin/users" />
       <DeleteButton basePath="/admin/users" />
     </Datagrid>
