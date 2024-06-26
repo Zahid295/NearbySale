@@ -1,13 +1,13 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const AdminLogout = () => {
-  const history = useHistory();
+  const history = useNavigate();
 
   const handleLogout = () => {
     // Clear tokens or session data (For example, from local storage)
     // Redirect to the login page
-    history.push('/admin/login');
+    history.push('/login');
   };
 
   return (

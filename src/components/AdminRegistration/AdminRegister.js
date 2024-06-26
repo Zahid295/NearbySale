@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import axios from 'axios'; 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const AdminRegister = () => {
   // Initialize history for redirection
-  const history = useHistory(); 
+  const history = useNavigate(); 
 
   const [formData, setFormData] = useState({
     username: '',
@@ -21,7 +20,7 @@ const AdminRegister = () => {
     e.preventDefault();
     try {
       // Make an API call t0 registration endpoint
-      await axios.post('/api/admin/register', formData);
+      await axios.post('http://localhost:3000/register', formData);
       // Redirect to the login page
       history.push('/admin/login');
     } catch (error) {

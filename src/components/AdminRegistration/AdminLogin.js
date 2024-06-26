@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios'; 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
     // Initialize history for redirection
-  const history = useHistory();
+  const history = useNavigate();
 
   const [credentials, setCredentials] = useState({
     username: '',
@@ -20,7 +20,7 @@ const AdminLogin = () => {
     e.preventDefault();
     try {
       // Make an API call to login endpoint
-      await axios.post('/admin/login', credentials);
+      await axios.post('http://localhost:3000/login', credentials);
       // Redirect to the admin dashboard
       history.push('/admin/dashboard');
     } catch (error) {
