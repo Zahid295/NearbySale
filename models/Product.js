@@ -4,6 +4,7 @@ const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String },
   price: { type: Number, required: true },
+  imageUrl: { type: String },
   // Add other relevant fields (e.g., brand, category)
 });
 
