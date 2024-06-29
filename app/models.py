@@ -1,6 +1,5 @@
 # app/models.py
 from flask_sqlalchemy import SQLAlchemy
-from . import db
 db = SQLAlchemy()
 
 class User(db.Model):
