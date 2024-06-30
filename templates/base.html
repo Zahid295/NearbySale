@@ -3,29 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Flask App</title>
-    <!-- Add your CSS and other stylesheets here -->
+    <title>{% block title %}Furniture Store{% endblock %}</title>
+    <!-- Add your CSS links here -->
 </head>
 <body>
-    <header>
-        <h1>Welcome to My Flask App</h1>
-    </header>
-
     <nav>
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/api/users">Users</a></li>
-            <!-- Add more navigation links as needed -->
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('products') }}">Products</a></li>
+            <li><a href="#" id="product-details-link" style="display: none;">Product Details</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
         </ul>
     </nav>
 
     <main>
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </main>
 
     <footer>
-        © 2024 My Flask App
+        <p>© {{ current_year }} Furniture Store. All rights reserved.</p>
+        <p>Follow us on:
+            <a href="#">Facebook</a>,
+            <a href="#">Twitter</a>,
+            <a href="#">Instagram</a>
+        </p>
     </footer>
-    <!-- Add your JavaScript scripts here -->
+
+    <!-- Add your JavaScript links here -->
+
 </body>
 </html>
