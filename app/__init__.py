@@ -3,10 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 # from flask_admin import Admin
 from config import SQLALCHEMY_DATABASE_URI
-from .models import db
+from .routes import routes_blueprint
 
 
-# db = SQLAlchemy()
+db = SQLAlchemy()
 
 
 def create_app():
@@ -23,5 +23,10 @@ def create_app():
 # app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # db.init_app(app)
+    from . import routes
+    app.register_blueprint(routes_blueprint)
+   
+
+
     return app     
           
