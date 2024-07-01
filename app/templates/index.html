@@ -4,17 +4,21 @@
 
 {% block content %}
 <h1>Welcome to Our Furniture Store</h1>
-<div>
-     {% for product in products %}
-    <div class="product">
-        <h2>{{ product.name }}</h2> 
-         Reference the local image file 
-         <img src="{{ url_for('static', filename='images/' ~ product.image_url) }}" alt="{{ product.name }}">
- 
-        <p>{{ product.description }}</p>
-        <p>Price: ${{ product.price }}</p> 
-         <!-- Add to cart button or link  -->
+<!-- Featured Products Section -->
+<section class="featured-products">
+    <h1>Featured Products</h1>
+    <div class="product-list">
+        {% for product in featured_products %}
+        <div class="product">
+            <h2>{{ product.name }}</h2>
+            <img src="{{ url_for('static', filename='images/' ~ product.image_url) }}" alt="{{ product.name }}">
+            <p>{{ product.description | truncate(150) }}</p>
+            <p>Price: ${{ product.price }}</p>
+            <a href="{{ url_for('routes_blueprint.product_details', product_id=product.id) }}">View Details</a>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
+    <a href="{{ url_for('routes_blueprint.all_products') }}">View All Products</a>
+</section>
+
 {% endblock %}

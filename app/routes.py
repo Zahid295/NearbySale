@@ -10,15 +10,35 @@ routes_blueprint = Blueprint('routes_blueprint', __name__)
 @routes_blueprint.route('/')
 def index():
     try:
-        # Fetch all products from the database
-        products = Product.query.all()
-        # Pass the products to the template
-        return render_template('index.html', products=products)
+        # Fetch the first three products based on their ID
+        featured_products = Product.query.order_by(Product.id).limit(3).all()
+        return render_template('index.html', featured_products=featured_products)
     except Exception as e:
-        # Log the error for debugging
         print(f"An error occurred: {e}")
-        # Return a generic error message to the user
-        return "An error occurred while trying to fetch products. Please try again later.", 500
+        return "An error occurred while trying to fetch featured products. Please try again later.", 500
+
+
+@routes_blueprint.route('/products')
+def all_products():
+    try:
+        # Fetch all products
+        all_products = Product.query.order_by(Product.id).all()
+        return render_template('products.html', products=all_products)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return "An error occurred while trying to fetch all products. Please try again later.", 500
+    
+
+@routes_blueprint.route('/product/<int:product_id>')
+def product_details(product_id):
+    try:
+        product = Product.query.get_or_404(product_id)
+        return render_template('product_details.html', product=product)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return "An error occurred while trying to fetch product details. Please try again later.", 500
+
+
 
 
 # @app.route('/users')

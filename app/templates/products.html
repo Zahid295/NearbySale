@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}All Products - Furniture Store{% endblock %}
+
+{% block content %}
+<h1>All Products</h1>
+<div class="product-list">
+    {% for product in products %}
+    <div class="product">
+        <h2>{{ product.name }}</h2>
+        <img src="{{ url_for('static', filename='images/' ~ product.image_url) }}" alt="{{ product.name }}">
+        <p>{{ product.description }}</p>
+        <p>Price: ${{ product.price }}</p>
+        <a href="{{ url_for('routes_blueprint.product_details', product_id=product.id) }}">View Details</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
