@@ -37,6 +37,12 @@ def product_details(product_id):
     except Exception as e:
         print(f"An error occurred: {e}")
         return "An error occurred while trying to fetch product details. Please try again later.", 500
+    
+
+@routes_blueprint.route('/about')
+def about():
+    return render_template('about.html')
+
 
 
 
