@@ -5,14 +5,14 @@
 {% block content %}
 <h1>Welcome to Our Furniture Store</h1>
 <div>
-    <!-- {% for product in products %}
+     {% for product in products %}
     <div class="product">
         <h2>{{ product.name }}</h2> 
          Reference the local image file 
-        <img src="{{ url_for('static', filename='images/' ~ product.image_filename) }}" alt="{{ product.name }}">
+        <!-- <img src="{{ url_for('static', filename='images/' ~ product.image_filename) }}" alt="{{ product.name }}"> -->
         <p>{{ product.description }}</p>
         <p>Price: ${{ product.price }}</p> 
-         Add to cart button or link -->
+         <!-- Add to cart button or link  -->
     </div>
     {% endfor %}
 </div>

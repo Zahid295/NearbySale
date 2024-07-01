@@ -1,5 +1,6 @@
 from flask import render_template, request, redirect, url_for, flash
-from .models import db, Product 
+from .database import db
+from .models import Product
 from flask import Blueprint
 
 routes_blueprint = Blueprint('routes_blueprint', __name__)
@@ -8,12 +9,16 @@ routes_blueprint = Blueprint('routes_blueprint', __name__)
 
 @routes_blueprint.route('/')
 def index():
-     try:
+    try:
+        # Fetch all products from the database
         products = Product.query.all()
+        # Pass the products to the template
         return render_template('index.html', products=products)
-     except Exception as e:
-        print(e)  # Log the error for debugging
-        return render_template('error.html'), 500
+    except Exception as e:
+        # Log the error for debugging
+        print(f"An error occurred: {e}")
+        # Return a generic error message to the user
+        return "An error occurred while trying to fetch products. Please try again later.", 500
 
 
 # @app.route('/users')
