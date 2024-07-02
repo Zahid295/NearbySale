@@ -44,6 +44,19 @@ def about():
     return render_template('about.html')
 
 
+@routes_blueprint.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+
+@routes_blueprint.route('/submit_contact', methods=['POST'])
+def submit_contact():
+
+    # Render a template with a thank message
+    return render_template('thank_you.html')
+
+
+
 
 
 
