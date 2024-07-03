@@ -129,6 +129,36 @@ def remove_from_cart(order_item_id):
         flash('Item not found in cart', 'error')
     return redirect(url_for('routes_blueprint.cart'))
 
+
+@routes_blueprint.route('/checkout', methods=['GET', 'POST'])
+def checkout():
+    if request.method == 'POST':
+        # Process the checkout form and finalize the order
+        pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
+        if pending_order:
+            # Update order status to 'Completed' or similar
+            pending_order.status = 'Completed'
+            db.session.commit()
+            flash('Checkout successful. Thank you for your order!', 'success')
+            return redirect(url_for('routes_blueprint.confirm_order', order_id=pending_order.id))
+        else:
+            flash('No items in cart to checkout', 'error')
+            return redirect(url_for('routes_blueprint.cart'))
+    return render_template('checkout.html')
+
+
+@routes_blueprint.route('/confirm_order/<int:order_id>')
+@login_required
+def confirm_order(order_id):
+    # Fetch the specific order using the order ID
+    order = Order.query.filter_by(id=order_id, user_id=current_user.id).first_or_404()
+    
+    # Calculate the total price of the order
+    total_price = sum(item.quantity * item.product.price for item in order.order_items)
+    
+    # Pass the order and total price to the template
+    return render_template('confirm_order.html', order=order, total_price=total_price)
+
 # Route for Sign up
 from werkzeug.security import generate_password_hash
 
