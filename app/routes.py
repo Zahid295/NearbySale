@@ -1,4 +1,5 @@
 from flask import render_template, request, redirect, url_for, flash
+from werkzeug.security import check_password_hash
 from .database import db
 from .models import Product, Order, OrderItems, User
 from flask import Blueprint
@@ -87,6 +88,31 @@ def signup():
         flash('Account created successfully!', 'success')
         return redirect(url_for('routes_blueprint.login'))
     return render_template('signup.html')
+
+
+@routes_blueprint.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+        
+        if user and check_password_hash(user.password, password):
+            # Verify if user exists and the password is correct
+            login_user(user)
+            flash('Logged in successfully.', 'success')
+            return redirect(url_for('routes_blueprint.index'))
+        else:
+            flash('Invalid username or password.', 'error')
+    return render_template('login.html')
+
+
+@routes_blueprint.route('/logout')
+def logout():
+    logout_user()
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('routes_blueprint.index'))
+
 
 
 
