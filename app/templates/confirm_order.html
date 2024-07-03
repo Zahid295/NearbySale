@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Confirmation - Furniture Store{% endblock %}
+
+{% block content %}
+<div class="order-confirmation">
+    <h1>Thank You for Your Order!</h1>
+    <p>Your order has been placed successfully. Here are the details:</p>
+    <ul>
+        <li><strong>Order Number:</strong> {{ order.id }}</li>
+        <li><strong>Total Cost:</strong> ${{ order.total_price }}</li>
+    </ul>
+    <p>We will send you an email confirmation shortly and notify you once your order has shipped.</p>
+</div>
+{% endblock %}
