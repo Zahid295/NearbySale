@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, flash
 from .database import db
-from .models import Product
+from .models import Product, Order, OrderItems
 from flask import Blueprint
 
 routes_blueprint = Blueprint('routes_blueprint', __name__)
@@ -54,6 +54,19 @@ def submit_contact():
 
     # Render a template with a thank message
     return render_template('thank_you.html')
+
+
+@routes_blueprint.route('/cart')
+def cart():
+    # Fetch the current user's pending order
+    pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
+    if pending_order:
+        cart_items = OrderItems.query.filter_by(order_id=pending_order.id).all()
+        total_price = sum(item.quantity * item.product.price for item in cart_items)
+    else:
+        cart_items = []
+        total_price = 0
+    return render_template('cart.html', cart_items=cart_items, total_price=total_price)
 
 
 
