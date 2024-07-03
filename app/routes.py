@@ -75,6 +75,35 @@ def cart():
         total_price = 0
     return render_template('cart.html', cart_items=cart_items, total_price=total_price)
 
+
+@routes_blueprint.route('/add_to_cart/<int:product_id>', methods=['POST'])
+def add_to_cart(product_id):
+    product = Product.query.get(product_id)
+    if product:
+        # Check if the user already has a pending order
+        pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
+        if not pending_order:
+            # Create a new order if no pending order exists
+            pending_order = Order(user_id=current_user.id, status='Pending')
+            db.session.add(pending_order)
+            db.session.commit()
+        
+        # Check if the product is already in the order
+        existing_item = OrderItems.query.filter_by(order_id=pending_order.id, product_id=product.id).first()
+        if existing_item:
+            # Increase the quantity if it's already there
+            existing_item.quantity += 1
+        else:
+            # Add a new item to the order
+            new_item = OrderItems(order_id=pending_order.id, product_id=product.id, quantity=1)
+            db.session.add(new_item)
+        
+        db.session.commit()
+        flash('Product added to cart successfully!', 'success')
+    else:
+        flash('Product not found', 'error')
+    return redirect(url_for('routes_blueprint.cart'))
+
 # Route for Sign up
 from werkzeug.security import generate_password_hash
 
