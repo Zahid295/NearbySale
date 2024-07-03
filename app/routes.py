@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, flash
 from .database import db
-from .models import Product, Order, OrderItems
+from .models import Product, Order, OrderItems, User
 from flask import Blueprint
 
 routes_blueprint = Blueprint('routes_blueprint', __name__)
@@ -67,6 +67,27 @@ def cart():
         cart_items = []
         total_price = 0
     return render_template('cart.html', cart_items=cart_items, total_price=total_price)
+
+# Route for Sign up
+from werkzeug.security import generate_password_hash
+
+@routes_blueprint.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        # Hash the password for security
+        hashed_password = generate_password_hash(password)
+        
+        # Create a new user instance
+        new_user = User(username=username, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        
+        flash('Account created successfully!', 'success')
+        return redirect(url_for('routes_blueprint.login'))
+    return render_template('signup.html')
+
 
 
 
