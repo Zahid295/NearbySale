@@ -1,12 +1,18 @@
 from flask import render_template, request, redirect, url_for, flash
+from flask_login import login_required, current_user, login_user,  logout_user
+from . import login_manager
 from werkzeug.security import check_password_hash
 from .database import db
 from .models import Product, Order, OrderItems, User
+from .extensions import login_manager
 from flask import Blueprint
 
 routes_blueprint = Blueprint('routes_blueprint', __name__)
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 @routes_blueprint.route('/')
 def index():

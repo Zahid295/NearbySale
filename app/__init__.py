@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_migrate import Migrate
+from .extensions import login_manager
 # from flask_admin import Admin
 from config import SQLALCHEMY_DATABASE_URI
 from .routes import routes_blueprint
@@ -14,6 +15,8 @@ def create_app():
 
     db.init_app(app)
     Migrate(app, db)
+
+    login_manager.init_app(app)
     
 # app = Flask(__name__)
 # admin = Admin(app, name='nearby-backend', template_mode='bootstrap3')
@@ -25,5 +28,5 @@ def create_app():
    
 
 
-    return app     
+    return app
           
