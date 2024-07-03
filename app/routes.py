@@ -104,6 +104,19 @@ def add_to_cart(product_id):
         flash('Product not found', 'error')
     return redirect(url_for('routes_blueprint.cart'))
 
+
+@routes_blueprint.route('/update_cart/<int:order_item_id>', methods=['POST'])
+def update_cart(order_item_id):
+    quantity = request.form.get('quantity', type=int)
+    order_item = OrderItems.query.get(order_item_id)
+    if order_item and quantity and quantity > 0:
+        order_item.quantity = quantity
+        db.session.commit()
+        flash('Cart updated successfully!', 'success')
+    else:
+        flash('Invalid quantity specified', 'error')
+    return redirect(url_for('routes_blueprint.cart'))
+
 # Route for Sign up
 from werkzeug.security import generate_password_hash
 
