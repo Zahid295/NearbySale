@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout - Furniture Store{% endblock %}
+
+{% block content %}
+<div class="checkout">
+    <h1>Checkout</h1>
+    <form action="{{ url_for('routes_blueprint.confirm_order') }}" method="post">
+        <div class="shipping-info">
+            <h2>Shipping Information</h2>
+            <input type="text" name="full_name" placeholder="Full Name" required>
+            <input type="text" name="address" placeholder="Address" required>
+            <input type="text" name="city" placeholder="City" required>
+            <input type="text" name="zip_code" placeholder="Zip Code" required>
+            <!-- Additional fields as needed -->
+        </div>
+        <div class="payment-info">
+            <h2>Payment Information</h2>
+            <input type="text" name="card_number" placeholder="Card Number" required>
+            <input type="text" name="card_expiry" placeholder="MM/YY" required>
+            <input type="text" name="card_cvc" placeholder="CVC" required>
+            <!-- Additional fields as needed -->
+        </div>
+        <button type="submit" class="place-order">Place Order</button>
+    </form>
+</div>
+{% endblock %}
