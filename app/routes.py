@@ -117,6 +117,18 @@ def update_cart(order_item_id):
         flash('Invalid quantity specified', 'error')
     return redirect(url_for('routes_blueprint.cart'))
 
+
+@routes_blueprint.route('/remove_from_cart/<int:order_item_id>')
+def remove_from_cart(order_item_id):
+    order_item = OrderItems.query.get(order_item_id)
+    if order_item:
+        db.session.delete(order_item)
+        db.session.commit()
+        flash('Item removed from cart', 'success')
+    else:
+        flash('Item not found in cart', 'error')
+    return redirect(url_for('routes_blueprint.cart'))
+
 # Route for Sign up
 from werkzeug.security import generate_password_hash
 
