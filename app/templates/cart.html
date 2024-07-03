@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Shopping Cart - Furniture Store{% endblock %}
+
+{% block content %}
+<div class="shopping-cart">
+    <h1>Your Shopping Cart</h1>
+    {% if cart_items %}
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>${{ item.product.price }}</td>
+                <td>
+                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                </td>
+                <td>${{ item.quantity * item.product.price }}</td>
+                <td>
+                    <a href="{{ url_for('routes_blueprint.remove_from_cart', order_item_id=item.id) }}">Remove</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="cart-total">
+        <strong>Total:</strong> ${{ total_price }}
+    </div>
+    <div class="cart-actions">
+        <a href="{{ url_for('routes_blueprint.checkout') }}" class="checkout-button">Proceed to Checkout</a>
+        <a href="{{ url_for('routes_blueprint.products') }}" class="continue-shopping">Continue Shopping</a>
+    </div>
+    {% else %}
+    <p>Your cart is empty. <a href="{{ url_for('routes_blueprint.products') }}">Start shopping!</a></p>
+    {% endif %}
+</div>
+{% endblock %}
