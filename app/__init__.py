@@ -2,7 +2,7 @@ from flask import Flask
 from flask_migrate import Migrate
 from .extensions import login_manager
 # from flask_admin import Admin
-from config import SQLALCHEMY_DATABASE_URI
+from config import SQLALCHEMY_DATABASE_URI, SECRET_KEY 
 from .routes import routes_blueprint
 from .database import db
 
@@ -12,6 +12,7 @@ def create_app():
     # admin = Admin(app, name='nearby-backend', template_mode='bootstrap3')
     app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SECRET_KEY'] = SECRET_KEY
 
     db.init_app(app)
     Migrate(app, db)

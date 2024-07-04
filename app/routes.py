@@ -167,17 +167,25 @@ def signup():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        # Default role 'user'
+        role = 'user'
+        
         # Hash the password for security
         hashed_password = generate_password_hash(password)
         
-        # Create a new user instance
-        new_user = User(username=username, password=hashed_password)
+        # Create a new user instance with the role
+        new_user = User(username=username, password=hashed_password, role=role)
         db.session.add(new_user)
-        db.session.commit()
-        
-        flash('Account created successfully!', 'success')
-        return redirect(url_for('routes_blueprint.login'))
+        try:
+            db.session.commit()
+            flash('Account created successfully!', 'success')
+            return redirect(url_for('routes_blueprint.login'))
+        except Exception as e:
+            db.session.rollback()
+            flash('Error creating account. Please try again.', 'error')
+            print(e)  # For debugging purposes
     return render_template('signup.html')
+
 
 
 @routes_blueprint.route('/login', methods=['GET', 'POST'])

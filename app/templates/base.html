@@ -11,6 +11,7 @@
         <ul>
             <li><a href="{{ url_for('routes_blueprint.index') }}">Home</a></li>
             <li><a href="{{ url_for('routes_blueprint.all_products') }}">Products</a></li>
+            <li><a href="{{ url_for('routes_blueprint.cart') }}">Cart</a></li>
             <li><a href="{{ url_for('routes_blueprint.about') }}">About Us</a></li>
             <li><a href="{{ url_for('routes_blueprint.contact') }}">Contact</a></li>
             {% if current_user.is_authenticated %}
@@ -21,6 +22,17 @@
         {% endif %}
         </ul>
     </nav>
+
+     <!-- Flash Messages -->
+     {% with messages = get_flashed_messages(with_categories=true) %}
+     {% if messages %}
+         <div class="flash-messages">
+             {% for category, message in messages %}
+                 <div class="alert {{ category }}">{{ message }}</div>
+             {% endfor %}
+         </div>
+     {% endif %}
+     {% endwith %}
 
     <main>
         {% block content %}
