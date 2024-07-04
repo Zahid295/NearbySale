@@ -37,10 +37,10 @@
     </div>
     <div class="cart-actions">
         <a href="{{ url_for('routes_blueprint.checkout') }}" class="checkout-button">Proceed to Checkout</a>
-        <a href="{{ url_for('routes_blueprint.products') }}" class="continue-shopping">Continue Shopping</a>
+        <a href="{{ url_for('routes_blueprint.all_products') }}" class="continue-shopping">Continue Shopping</a>
     </div>
     {% else %}
-    <p>Your cart is empty. <a href="{{ url_for('routes_blueprint.products') }}">Start shopping!</a></p>
+    <p>Your cart is empty. <a href="{{ url_for('routes_blueprint.all_products') }}">Start shopping!</a></p>
     {% endif %}
 </div>
 {% endblock %}

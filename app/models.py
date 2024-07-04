@@ -17,6 +17,7 @@ class Product(db.Model):
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    order_items = db.relationship('OrderItems', backref='order', lazy=True)
     order_date = db.Column(db.DateTime, nullable=False)
     status = db.Column(db.String(20), nullable=False)  # 'Delivered' or 'Pending'
 
@@ -24,5 +25,6 @@ class OrderItems(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_id = db.Column(db.Integer, db.ForeignKey('order.id'), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    product = db.relationship('Product', backref='order_items')
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)

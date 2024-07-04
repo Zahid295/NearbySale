@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user, login_user,  logout_user
 from . import login_manager
 from werkzeug.security import check_password_hash
-from datetime import datetime
+from datetime import datetime, timezone
 from .database import db
 from .models import Product, Order, OrderItems, User
 from .extensions import login_manager
@@ -65,15 +65,18 @@ def submit_contact():
 
 
 @routes_blueprint.route('/cart')
+@login_required
 def cart():
     # Fetch the current user's pending order
     pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
     if pending_order:
         cart_items = OrderItems.query.filter_by(order_id=pending_order.id).all()
-        total_price = sum(item.quantity * item.product.price for item in cart_items)
+        # Ensure that each item has a price before calculating the total
+        total_price = sum(item.quantity * item.product.price for item in cart_items if item.product.price is not None)
     else:
         cart_items = []
         total_price = 0
+
     return render_template('cart.html', cart_items=cart_items, total_price=total_price)
 
 
@@ -90,7 +93,7 @@ def add_to_cart(product_id):
     pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
     if not pending_order:
         # Create a new order if no pending order exists
-        pending_order = Order(user_id=current_user.id, order_date=datetime.utcnow(), status='Pending')
+        pending_order = Order(user_id=current_user.id, order_date=datetime.now(timezone.utc), status='Pending')
         db.session.add(pending_order)
         db.session.commit()
     
@@ -100,13 +103,13 @@ def add_to_cart(product_id):
         # Increase the quantity if it's already there
         existing_item.quantity += quantity
     else:
-        # Add a new item to the order
-        new_item = OrderItems(order_id=pending_order.id, product_id=product.id, quantity=quantity)
+        # Add a new item to the order with the product's price
+        new_item = OrderItems(order_id=pending_order.id, product_id=product.id, quantity=quantity, price=product.price)
         db.session.add(new_item)
     
     db.session.commit()
     flash('Product added to cart successfully!', 'success')
-    return redirect(url_for('routes_blueprint.product_details', product_id=product_id))
+    return redirect(url_for('routes_blueprint.cart', product_id=product_id))
 
 @routes_blueprint.route('/update_cart/<int:order_item_id>', methods=['POST'])
 def update_cart(order_item_id):
@@ -134,10 +137,12 @@ def remove_from_cart(order_item_id):
 
 
 @routes_blueprint.route('/checkout', methods=['GET', 'POST'])
+@login_required
 def checkout():
+    # Fetch the current user's pending order
+    pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
+
     if request.method == 'POST':
-        # Process the checkout form and finalize the order
-        pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
         if pending_order:
             # Update order status to 'Completed' or similar
             pending_order.status = 'Completed'
@@ -147,20 +152,63 @@ def checkout():
         else:
             flash('No items in cart to checkout', 'error')
             return redirect(url_for('routes_blueprint.cart'))
+    else:
+        # For a GET request, render the checkout page with the order_id
+        if pending_order:
+            return render_template('checkout.html', order_id=pending_order.id)
+        else:
+            flash('No items in cart to checkout', 'error')
+            return redirect(url_for('routes_blueprint.cart'))
+
+    # If there's no pending order, render the checkout page without an order_id
     return render_template('checkout.html')
 
 
-@routes_blueprint.route('/confirm_order/<int:order_id>')
+@routes_blueprint.route('/confirm_order/<int:order_id>', methods=['POST'])
 @login_required
 def confirm_order(order_id):
-    # Fetch the specific order using the order ID
-    order = Order.query.filter_by(id=order_id, user_id=current_user.id).first_or_404()
-    
-    # Calculate the total price of the order
-    total_price = sum(item.quantity * item.product.price for item in order.order_items)
-    
-    # Pass the order and total price to the template
-    return render_template('confirm_order.html', order=order, total_price=total_price)
+    # Simulate form data validation
+    full_name = request.form.get('full_name')
+    address = request.form.get('address')
+    city = request.form.get('city')
+    zip_code = request.form.get('zip_code')
+    card_number = request.form.get('card_number')
+    card_expiry = request.form.get('card_expiry')
+    card_cvc = request.form.get('card_cvc')
+
+    # Basic validation checks
+    if not (full_name and address and city and zip_code and card_number and card_expiry and card_cvc):
+        flash('Please fill in all required fields.', 'error')
+        return redirect(url_for('routes_blueprint.checkout'))
+
+    # Simulate payment processing
+    # In a real application, you would integrate with a payment gateway here
+    payment_successful = True  # Mock payment success
+
+    try:
+        if payment_successful:
+            # Fetch the user's pending order
+            pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
+            if pending_order:
+                # Calculate the total price of the order
+                total_price = sum(item.quantity * item.price for item in pending_order.order_items)
+                # Update the order status to 'Completed'
+                pending_order.status = 'Completed'
+                db.session.commit()
+                flash('Your order has been placed successfully!', 'success')
+                # Redirect to an order confirmation page
+                return render_template('confirm_order.html', order=pending_order, total_price=total_price)
+            else:
+                flash('There was an error processing your order.', 'error')
+                return redirect(url_for('routes_blueprint.cart'))
+        else:
+            flash('Payment failed. Please try again.', 'error')
+            return redirect(url_for('routes_blueprint.checkout'))
+    except Exception as e:
+        db.session.rollback()
+        flash('An unexpected error occurred. Please try again.', 'error')
+        print(e)  # For debugging purposes
+        return redirect(url_for('routes_blueprint.checkout'))
 
 # Route for Sign up
 from werkzeug.security import generate_password_hash
