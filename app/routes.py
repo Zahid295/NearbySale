@@ -223,6 +223,24 @@ def order_history():
         current_app.logger.error(f'Error fetching order history for user {current_user.id}: {e}')
         flash('An error occurred while retrieving your order history. Please try again later.', 'error')
         return redirect(url_for('routes_blueprint.index'))  # Redirect to a safe page
+    
+
+@routes_blueprint.route('/track_order/<int:order_id>')
+@login_required
+def track_order(order_id):
+    try:
+        # Fetch the specific order
+        order = Order.query.get_or_404(order_id)
+        # Ensure the order belongs to the current user
+        if order.user_id != current_user.id:
+            flash('You do not have permission to view this order.', 'error')
+            return redirect(url_for('routes_blueprint.order_history'))
+        return render_template('track_order.html', order=order)
+    except Exception as e:
+        current_app.logger.error(f'Error tracking order {order_id} for user {current_user.id}: {e}')
+        flash('An error occurred while trying to track the order. Please try again later.', 'error')
+        return redirect(url_for('routes_blueprint.order_history'))  # Redirect to the order history page
+
 
 
 # Route for Sign up
