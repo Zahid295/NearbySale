@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Order History - Furniture Store{% endblock %}
+
+{% block content %}
+<div class="order-history">
+    <h1>Order History</h1>
+    <ul class="orders-list">
+        {% for order in orders %}
+        <li>
+            <div class="order">
+                <h2>Order #{{ order.id }}</h2>
+                <p>Placed on: {{ order.order_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                <p>Status: {{ order.status }}</p>
+                <p>Total: ${{ order.total_price }}</p>
+                <a href="{{ url_for('routes_blueprint.track_order', order_id=order.id) }}">Track Order</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
