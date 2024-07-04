@@ -2,6 +2,7 @@ from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user, login_user,  logout_user
 from . import login_manager
 from werkzeug.security import check_password_hash
+from datetime import datetime
 from .database import db
 from .models import Product, Order, OrderItems, User
 from .extensions import login_manager
@@ -77,33 +78,35 @@ def cart():
 
 
 @routes_blueprint.route('/add_to_cart/<int:product_id>', methods=['POST'])
+@login_required
 def add_to_cart(product_id):
-    product = Product.query.get(product_id)
-    if product:
-        # Check if the user already has a pending order
-        pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
-        if not pending_order:
-            # Create a new order if no pending order exists
-            pending_order = Order(user_id=current_user.id, status='Pending')
-            db.session.add(pending_order)
-            db.session.commit()
-        
-        # Check if the product is already in the order
-        existing_item = OrderItems.query.filter_by(order_id=pending_order.id, product_id=product.id).first()
-        if existing_item:
-            # Increase the quantity if it's already there
-            existing_item.quantity += 1
-        else:
-            # Add a new item to the order
-            new_item = OrderItems(order_id=pending_order.id, product_id=product.id, quantity=1)
-            db.session.add(new_item)
-        
+    # Retrieve the quantity from the form, default to 1 if not provided
+    quantity = request.form.get('quantity', 1, type=int)
+    
+    # Fetch the product to add to the cart
+    product = Product.query.get_or_404(product_id)
+    
+    # Check if the user already has a pending order
+    pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
+    if not pending_order:
+        # Create a new order if no pending order exists
+        pending_order = Order(user_id=current_user.id, order_date=datetime.utcnow(), status='Pending')
+        db.session.add(pending_order)
         db.session.commit()
-        flash('Product added to cart successfully!', 'success')
+    
+    # Check if the product is already in the order
+    existing_item = OrderItems.query.filter_by(order_id=pending_order.id, product_id=product.id).first()
+    if existing_item:
+        # Increase the quantity if it's already there
+        existing_item.quantity += quantity
     else:
-        flash('Product not found', 'error')
-    return redirect(url_for('routes_blueprint.cart'))
-
+        # Add a new item to the order
+        new_item = OrderItems(order_id=pending_order.id, product_id=product.id, quantity=quantity)
+        db.session.add(new_item)
+    
+    db.session.commit()
+    flash('Product added to cart successfully!', 'success')
+    return redirect(url_for('routes_blueprint.product_details', product_id=product_id))
 
 @routes_blueprint.route('/update_cart/<int:order_item_id>', methods=['POST'])
 def update_cart(order_item_id):
