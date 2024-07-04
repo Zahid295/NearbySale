@@ -7,6 +7,7 @@ from .database import db
 from .models import Product, Order, OrderItems, User
 from .extensions import login_manager
 from flask import Blueprint
+from flask import current_app
 
 routes_blueprint = Blueprint('routes_blueprint', __name__)
 
@@ -209,6 +210,20 @@ def confirm_order(order_id):
         flash('An unexpected error occurred. Please try again.', 'error')
         print(e)  # For debugging purposes
         return redirect(url_for('routes_blueprint.checkout'))
+    
+
+@routes_blueprint.route('/order_history')
+@login_required
+def order_history():
+    try:
+        # Fetch all orders for the current user
+        orders = Order.query.filter_by(user_id=current_user.id).order_by(Order.order_date.desc()).all()
+        return render_template('order_history.html', orders=orders)
+    except Exception as e:
+        current_app.logger.error(f'Error fetching order history for user {current_user.id}: {e}')
+        flash('An error occurred while retrieving your order history. Please try again later.', 'error')
+        return redirect(url_for('routes_blueprint.index'))  # Redirect to a safe page
+
 
 # Route for Sign up
 from werkzeug.security import generate_password_hash
