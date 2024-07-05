@@ -221,6 +221,95 @@ form button {
     border-radius: 5px;
 }
 
+/* Product List Styles */
+.products-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.products {
+    flex-basis: calc(33.3% - 40px); /* Three items per row with spacing */
+    margin: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.products img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.products h2 {
+    margin-bottom: 10px;
+}
+
+.products p {
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.products a {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.products a:hover {
+    background-color: #0056b3;
+}
+
+/* Product Details Styles */
+.product-details {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.product-details img {
+    max-width: 100%; /* Adjust the size as needed */
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.product-details h1 {
+    margin-bottom: 20px;
+}
+
+.product-details p {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.product-details form {
+    margin-top: 20px;
+}
+
+.product-details form input,
+.product-details form button {
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.product-details form button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.product-details form button:hover {
+    background-color: #218838;
+}
+
+
 /* Forms */
 form {
     max-width: 500px;
@@ -322,6 +411,18 @@ tr:nth-child(even) {
 @media (max-width: 768px) {
     .about-section {
         padding: 20px 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .products {
+        flex-basis: calc(50% - 40px); /* Two items per row */
+    }
+}
+
+@media (max-width: 480px) {
+    .products {
+        flex-basis: 100%; /* One item per row */
     }
 }
 
