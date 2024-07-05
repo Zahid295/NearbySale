@@ -12,4 +12,13 @@
     </ul>
     <p>We will send you an email confirmation shortly and notify you once your order has shipped.</p>
 </div>
+<div class="next-steps">
+    <h3>What's Next?</h3>
+    <ul>
+        <li><a href="{{ url_for('routes_blueprint.all_products') }}">Continue Shopping</a></li>
+        <li><a href="{{ url_for('routes_blueprint.order_history') }}">View Order History</a></li>
+        <li><a href="{{ url_for('routes_blueprint.track_order', order_id=order.id) }}">Track Your Order</a></li>
+    </ul>
+</div>
+
 {% endblock %}
