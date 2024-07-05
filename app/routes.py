@@ -142,15 +142,23 @@ def update_cart(order_item_id):
     return redirect(url_for('routes_blueprint.cart'))
 
 
-@routes_blueprint.route('/remove_from_cart/<int:order_item_id>')
-def remove_from_cart(order_item_id):
-    order_item = OrderItems.query.get(order_item_id)
-    if order_item:
-        db.session.delete(order_item)
-        db.session.commit()
-        flash('Item removed from cart', 'success')
+@routes_blueprint.route('/remove_from_cart/<int:product_id>')
+def remove_from_cart(product_id):
+    if current_user.is_authenticated:
+        # Logic to remove item from database cart for logged-in users
+        order_item = OrderItems.query.filter_by(product_id=product_id, order_id=current_user.order.id).first()
+        if order_item:
+            db.session.delete(order_item)
+            db.session.commit()
+            flash('Item removed from cart', 'success')
+        else:
+            flash('Item not found in cart', 'error')
     else:
-        flash('Item not found in cart', 'error')
+        # Logic to remove item from session cart for guests
+        cart_items = session.get('cart_items', [])
+        cart_items = [item for item in cart_items if item['product_id'] != product_id]
+        session['cart_items'] = cart_items
+        flash('Item removed from cart', 'info')
     return redirect(url_for('routes_blueprint.cart'))
 
 

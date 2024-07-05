@@ -46,6 +46,7 @@
                 <td>
                     {% if item is mapping %}
                         <!-- Link for guests to remove items from the session cart -->
+                        <a href="{{ url_for('routes_blueprint.remove_from_cart', product_id=item['product_id']) }}">Remove</a>
                     {% else %}
                         <a href="{{ url_for('routes_blueprint.remove_from_cart', order_item_id=item.id) }}">Remove</a>
                     {% endif %}
