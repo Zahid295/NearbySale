@@ -44,12 +44,10 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% if item is mapping %}
-                        <!-- Link for guests to remove items from the session cart -->
-                        <a href="{{ url_for('routes_blueprint.remove_from_cart', product_id=item['product_id']) }}">Remove</a>
-                    {% else %}
-                        <a href="{{ url_for('routes_blueprint.remove_from_cart', order_item_id=item.id) }}">Remove</a>
-                    {% endif %}
+                    <form action="{{ url_for('routes_blueprint.remove_from_cart') }}" method="post">
+                        <input type="hidden" name="product_id" value="{{ item['product_id'] if item is mapping else item.product.id }}">
+                        <button type="submit">Remove</button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
@@ -71,4 +69,3 @@
     {% endif %}
 </div>
 {% endblock %}
-
