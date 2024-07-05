@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Furniture Store{% endblock %}</title>
-    <!-- CSS Link -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
 </head>
 <body>
     <nav>
@@ -15,6 +16,7 @@
             <li><a href="{{ url_for('routes_blueprint.about') }}">About Us</a></li>
             <li><a href="{{ url_for('routes_blueprint.contact') }}">Contact</a></li>
             {% if current_user.is_authenticated %}
+            <li><a href="{{ url_for('routes_blueprint.order_history') }}">Order History</a></li>
             <li><a href="{{ url_for('routes_blueprint.logout') }}">Logout</a></li>
         {% else %}
             <li><a href="{{ url_for('routes_blueprint.login') }}">Login</a></li>
@@ -39,13 +41,12 @@
         {% endblock %}
     </main>
 
-    <footer>
-        <!-- 
+    <footer> 
          <p>Follow us on:
             <a href="#">Facebook</a>,
             <a href="#">Twitter</a>,
             <a href="#">Instagram</a>
-        </p> -->
+        </p>
     </footer>
 
 </body>
