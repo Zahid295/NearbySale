@@ -1,3 +1,7 @@
+html {
+    height: 100%;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,6 +13,13 @@ body, h1, h2, h3, h4, h5, h6, p, ul, li, a, input, button, textarea {
     color: #333;
 }
 
+/* Layout styles */
+body {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Navbar */
 nav {
     background-color: #333;
@@ -18,11 +29,13 @@ nav {
 
 nav ul {
     list-style-type: none;
+    display: flex;
+    justify-content: center;
 }
 
 nav ul li {
-    display: inline;
-    margin-right: 10px;
+    /* display: inline; */
+    margin: 0 10px;
 }
 
 nav a {
@@ -43,20 +56,30 @@ nav a:hover {
     border-radius: 4px;
 }
 
-.flash-messages .alert.success {
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
-    color: #3c763d;
+.flash-messages {
+    padding: 10px;
+    text-align: center;
 }
 
-.flash-messages .alert.error {
-    background-color: #f2dede;
-    border-color: #ebccd1;
-    color: #a94442;
+.alert {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.alert.success {
+    background-color: #28a745;
+}
+
+.alert.error {
+    background-color: #dc3545;
 }
 
 /* Main Content */
 main {
+    flex: 1;
     padding: 20px;
 }
 
@@ -66,9 +89,10 @@ footer {
     color: white;
     text-align: center;
     padding: 10px 0;
-    position: absolute;
+    margin-top: auto;
+    /* position: absolute;
     bottom: 0;
-    width: 100%;
+    width: 100%; */
 }
 
 footer a {
@@ -80,10 +104,159 @@ footer a:hover {
     text-decoration: underline;
 }
 
+footer p a {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+/* Home page styles */
+.featured-products, .about-us, .contact {
+    padding: 20px;
+    text-align: center;
+}
+
+.feature-heading {
+    margin-bottom: 10px;
+}
+
+.Welcome-heading {
+    text-align: center;
+}
+
+.signup-heading {
+    text-align: center;
+}
+
+.login-heading {
+    text-align: center;
+}
+
+.contact-us {
+    text-align: center;
+    padding: 10px;
+}
+
+.contact-us p {
+    margin-top: 10px;
+}
+
+/* About Section Styles */
+.about-section {
+    max-width: 800px; /* Adjust width as needed */
+    margin: auto;
+    padding: 20px;
+    background-color: #fff; /* For contrast against body background */
+}
+
+.about-section h1 {
+    text-align: center;
+    color: #007bff; /* Theme color for headings */
+    margin-bottom: 30px;
+}
+
+.about-content h2 {
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.about-content p {
+    font-size: 16px; /* Adjust font size as needed */
+    line-height: 1.6; /* For better readability */
+    margin-bottom: 20px;
+}
+
+.about-content ul {
+    list-style-type: none; /* Removes default list styling */
+    padding-left: 0;
+}
+
+.about-content li {
+    padding-left: 20px; /* Space for custom bullet */
+    margin-bottom: 10px;
+}
+
+.about-content li strong {
+    color: #007bff; /* Theme color for strong tags */
+}
+
+
+/* Align form buttons in the center */
+form .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* Adjust as needed */
+}
+
+form button {
+    padding: 10px 20px;
+    /* Other button styles */
+}
+
+.featured-products {
+    color: #007bff;
+}
+
+.featured-products .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    
+}
+
+.featured-products .product {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    /* Set a percentage width for each product - adjust as needed */
+    width: calc(25% - 5px); /* 4 items in a row */
+    gap: 20px;
+}
+
+.featured-products .product img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
 /* Forms */
 form {
     max-width: 500px;
     margin: 20px auto;
+}
+
+.about-us, .contact {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.about-us a, .contact a {
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.featured-products a {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.featured-products a:hover, .about-us a:hover, .contact a:hover {
+    background-color: #0056b3;
 }
 
 form input[type="text"],
@@ -143,6 +316,12 @@ tr:nth-child(even) {
 
     .container, form {
         width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-section {
+        padding: 20px 10px;
     }
 }
 

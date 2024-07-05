@@ -19,14 +19,36 @@
         <tbody>
             {% for item in cart_items %}
             <tr>
-                <td>{{ item.product.name }}</td>
-                <td>${{ item.product.price }}</td>
+                <td>
+                    {% if item is mapping %}
+                        {{ item['name'] }}  
+                    {% else %}
+                        {{ item.product.name }}  
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item is mapping %}
+                        ${{ item['price'] }}
+                    {% else %}
+                        ${{ item.product.price }}
+                    {% endif %}
+                </td>
                 <td>
                     <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
                 </td>
-                <td>${{ item.quantity * item.product.price }}</td>
                 <td>
-                    <a href="{{ url_for('routes_blueprint.remove_from_cart', order_item_id=item.id) }}">Remove</a>
+                    {% if item is mapping %}
+                        ${{ item['quantity'] * item['price'] }}
+                    {% else %}
+                        ${{ item.quantity * item.product.price }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item is mapping %}
+                        <!-- Link for guests to remove items from the session cart -->
+                    {% else %}
+                        <a href="{{ url_for('routes_blueprint.remove_from_cart', order_item_id=item.id) }}">Remove</a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
@@ -36,7 +58,11 @@
         <strong>Total:</strong> ${{ total_price }}
     </div>
     <div class="cart-actions">
+        {% if is_authenticated %}
         <a href="{{ url_for('routes_blueprint.checkout') }}" class="checkout-button">Proceed to Checkout</a>
+        {% else %}
+        <p>Please <a href="{{ url_for('routes_blueprint.login') }}">login</a> or <a href="{{ url_for('routes_blueprint.signup') }}">register</a> to proceed to checkout.</p>
+        {% endif %}
         <a href="{{ url_for('routes_blueprint.all_products') }}" class="continue-shopping">Continue Shopping</a>
     </div>
     {% else %}
@@ -44,3 +70,4 @@
     {% endif %}
 </div>
 {% endblock %}
+

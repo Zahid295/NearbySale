@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, session
 from flask_login import login_required, current_user, login_user,  logout_user
 from . import login_manager
 from werkzeug.security import check_password_hash
@@ -66,23 +66,25 @@ def submit_contact():
 
 
 @routes_blueprint.route('/cart')
-@login_required
 def cart():
-    # Fetch the current user's pending order
-    pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
-    if pending_order:
-        cart_items = OrderItems.query.filter_by(order_id=pending_order.id).all()
-        # Ensure that each item has a price before calculating the total
-        total_price = sum(item.quantity * item.product.price for item in cart_items if item.product.price is not None)
+    if current_user.is_authenticated:
+        # Fetch the current user's pending order
+        pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
+        if pending_order:
+            cart_items = OrderItems.query.filter_by(order_id=pending_order.id).all()
+            total_price = sum(item.quantity * item.product.price for item in cart_items if item.product.price is not None)
+        else:
+            cart_items = []
+            total_price = 0
     else:
-        cart_items = []
-        total_price = 0
+        # For guests, retrieve cart items from the session
+        cart_items = session.get('cart_items', [])
+        # Calculate the total price based on session data
+        total_price = sum(item['quantity'] * item['price'] for item in cart_items)
 
-    return render_template('cart.html', cart_items=cart_items, total_price=total_price)
-
+    return render_template('cart.html', cart_items=cart_items, total_price=total_price, is_authenticated=current_user.is_authenticated)
 
 @routes_blueprint.route('/add_to_cart/<int:product_id>', methods=['POST'])
-@login_required
 def add_to_cart(product_id):
     # Retrieve the quantity from the form, default to 1 if not provided
     quantity = request.form.get('quantity', 1, type=int)
@@ -90,27 +92,42 @@ def add_to_cart(product_id):
     # Fetch the product to add to the cart
     product = Product.query.get_or_404(product_id)
     
-    # Check if the user already has a pending order
-    pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
-    if not pending_order:
-        # Create a new order if no pending order exists
-        pending_order = Order(user_id=current_user.id, order_date=datetime.now(timezone.utc), status='Pending')
-        db.session.add(pending_order)
+    if current_user.is_authenticated:
+        # Check if the user already has a pending order
+        pending_order = Order.query.filter_by(user_id=current_user.id, status='Pending').first()
+        if not pending_order:
+            # Create a new order if no pending order exists
+            pending_order = Order(user_id=current_user.id, order_date=datetime.utcnow(), status='Pending')
+            db.session.add(pending_order)
+            db.session.commit()
+        
+        # Check if the product is already in the order
+        existing_item = OrderItems.query.filter_by(order_id=pending_order.id, product_id=product.id).first()
+        if existing_item:
+            # Increase the quantity if it's already there
+            existing_item.quantity += quantity
+        else:
+            # Add a new item to the order with the product's price
+            new_item = OrderItems(order_id=pending_order.id, product_id=product.id, quantity=quantity, price=product.price)
+            db.session.add(new_item)
+        
         db.session.commit()
-    
-    # Check if the product is already in the order
-    existing_item = OrderItems.query.filter_by(order_id=pending_order.id, product_id=product.id).first()
-    if existing_item:
-        # Increase the quantity if it's already there
-        existing_item.quantity += quantity
+        flash('Product added to cart successfully!', 'success')
     else:
-        # Add a new item to the order with the product's price
-        new_item = OrderItems(order_id=pending_order.id, product_id=product.id, quantity=quantity, price=product.price)
-        db.session.add(new_item)
-    
-    db.session.commit()
-    flash('Product added to cart successfully!', 'success')
-    return redirect(url_for('routes_blueprint.cart', product_id=product_id))
+        # For guests, add to the session cart
+        cart_items = session.get('cart_items', [])
+        # Check if the product is already in the cart
+        for item in cart_items:
+            if item['product_id'] == product_id:
+                item['quantity'] += quantity
+                break
+        else:
+            # Add the new item to the session cart
+            cart_items.append({'product_id': product_id, 'quantity': quantity, 'price': product.price})
+        session['cart_items'] = cart_items
+        flash('Product added to cart successfully!', 'info')
+
+    return redirect(url_for('routes_blueprint.cart'))
 
 @routes_blueprint.route('/update_cart/<int:order_item_id>', methods=['POST'])
 def update_cart(order_item_id):
