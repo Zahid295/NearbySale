@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_migrate import Migrate
 from .extensions import login_manager
-# from flask_admin import Admin
 from config import SQLALCHEMY_DATABASE_URI, SECRET_KEY 
 from .routes import routes_blueprint
 from .database import db
