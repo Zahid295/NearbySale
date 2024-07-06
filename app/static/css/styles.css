@@ -564,6 +564,89 @@ tr:nth-child(even) {
     background-color: #e2e6ea;
 }
 
+/* Order History Styles */
+.order-history {
+    max-width: 800px; 
+    margin: auto;
+    padding: 20px;
+    /* For contrast against body background */
+    background-color: #fff; 
+}
+
+.order-history h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.orders-list {
+    /* Removes default list styling */
+    list-style-type: none; 
+    padding-left: 0;
+}
+
+.orders-list li {
+     /* Light background for each order */
+    background-color: #f8f9fa;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.order {
+    text-align: left;
+}
+
+.order h2 {
+    /* Theme color for order number */
+    color: #007bff; 
+    margin-bottom: 10px;
+}
+
+.order p {
+    font-size: 16px;
+    /* For better readability */ 
+    line-height: 1.6; 
+    margin-bottom: 10px;
+}
+
+.order a {
+    display: inline-block;
+    /* Green color for track order button */
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.order a:hover {
+    background-color: #218838;
+}
+
+/* Additional Links Styles */
+.additional-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.additional-links a {
+    display: inline-block;
+    /* Light background for additional links */
+    background-color: #f8f9fa; 
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.additional-links a:hover {
+    background-color: #e2e6ea;
+}
+
+
 
 
 /* Responsive Design */
@@ -571,6 +654,7 @@ tr:nth-child(even) {
     nav ul li {
         display: block;
         margin-bottom: 5px;
+        text-align: center;
     }
 
     .container, form {
@@ -607,6 +691,29 @@ tr:nth-child(even) {
     .track-order, .additional-links {
         width: 90%; 
         margin: 20px auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .order-history, .additional-links {
+        width: 90%; 
+        margin: 20px auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .product {
+        width: calc(50% - 20px);
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .product {
+        width: 100%;
     }
 }
 
