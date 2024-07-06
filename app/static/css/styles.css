@@ -400,6 +400,113 @@ tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
+/* Cart Actions Styles */
+.cart-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.cart-actions a {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.cart-actions a:hover {
+    background-color: #0056b3;
+}
+
+.cart-actions p {
+    margin: 20px 0;
+}
+
+.checkout-button {
+    background-color: #28a745; /* Green color for checkout button */
+}
+
+.checkout-button:hover {
+    background-color: #218838;
+}
+
+.continue-shopping {
+    background-color: #f8f9fa; /* Light color for continue shopping button */
+    color: #333;
+}
+
+.continue-shopping:hover {
+    background-color: #e2e6ea;
+}
+
+.order-confirmation {
+    max-width: 600px; /* Adjust width as needed */
+    margin: auto;
+    padding: 20px;
+    background-color: #fff; /* For contrast against body background */
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.order-confirmation h1 {
+    color: #28a745; /* Green color for success */
+    margin-bottom: 20px;
+}
+
+.order-confirmation p {
+    font-size: 16px; /* Adjust font size as needed */
+    line-height: 1.6; /* For better readability */
+    margin-bottom: 20px;
+}
+
+.order-confirmation ul {
+    list-style-type: none; /* Removes default list styling */
+    padding-left: 0;
+}
+
+.order-confirmation li {
+    padding: 5px 0; /* Space between list items */
+}
+
+/* Next Steps Styles */
+.next-steps {
+    max-width: 600px; /* Adjust width as needed */
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f8f9fa; /* Light background for the next steps section */
+    text-align: center;
+    border-radius: 5px;
+}
+
+.next-steps h3 {
+    margin-bottom: 20px;
+}
+
+.next-steps ul {
+    list-style-type: none; /* Removes default list styling */
+    padding-left: 0;
+}
+
+.next-steps li a {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.next-steps li a:hover {
+    background-color: #0056b3;
+}
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     nav ul li {
@@ -427,6 +534,13 @@ tr:nth-child(even) {
 @media (max-width: 480px) {
     .products {
         flex-basis: 100%; /* One item per row */
+    }
+}
+
+@media (max-width: 768px) {
+    .order-confirmation, .next-steps {
+        width: 90%; /* Adjust width for smaller screens */
+        margin: 20px auto;
     }
 }
 
