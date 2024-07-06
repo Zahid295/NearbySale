@@ -90,9 +90,6 @@ footer {
     text-align: center;
     padding: 10px 0;
     margin-top: auto;
-    /* position: absolute;
-    bottom: 0;
-    width: 100%; */
 }
 
 footer a {
@@ -147,15 +144,17 @@ footer p a {
 
 /* About Section Styles */
 .about-section {
-    max-width: 800px; /* Adjust width as needed */
+    max-width: 800px;
     margin: auto;
     padding: 20px;
-    background-color: #fff; /* For contrast against body background */
+    /* For contrast against body background */
+    background-color: #fff; 
 }
 
 .about-section h1 {
     text-align: center;
-    color: #007bff; /* Theme color for headings */
+     /* Theme color for headings */
+    color: #007bff;
     margin-bottom: 30px;
 }
 
@@ -166,23 +165,27 @@ footer p a {
 }
 
 .about-content p {
-    font-size: 16px; /* Adjust font size as needed */
-    line-height: 1.6; /* For better readability */
+    font-size: 16px;
+    /* For better readability */
+    line-height: 1.6; 
     margin-bottom: 20px;
 }
 
 .about-content ul {
-    list-style-type: none; /* Removes default list styling */
+    /* Space for custom bullet */
+    list-style-type: none; 
     padding-left: 0;
 }
 
 .about-content li {
-    padding-left: 20px; /* Space for custom bullet */
+    /* Space for custom bullet */
+    padding-left: 20px; 
     margin-bottom: 10px;
 }
 
 .about-content li strong {
-    color: #007bff; /* Theme color for strong tags */
+    /* Theme color for strong tags */
+    color: #007bff; 
 }
 
 
@@ -190,12 +193,11 @@ footer p a {
 form .button-container {
     display: flex;
     justify-content: center;
-    margin-top: 20px; /* Adjust as needed */
+    margin-top: 20px; 
 }
 
 form button {
     padding: 10px 20px;
-    /* Other button styles */
 }
 
 .featured-products {
@@ -214,8 +216,8 @@ form button {
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 5px;
-    /* Set a percentage width for each product - adjust as needed */
-    width: calc(25% - 5px); /* 4 items in a row */
+     /* 4 items in a row */
+    width: calc(25% - 5px);
     gap: 20px;
 }
 
@@ -234,7 +236,8 @@ form button {
 }
 
 .products {
-    flex-basis: calc(33.3% - 40px); /* Three items per row with spacing */
+    /* Three items per row with spacing */
+    flex-basis: calc(33.3% - 40px); 
     margin: 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     padding: 20px;
@@ -278,7 +281,7 @@ form button {
 }
 
 .product-details img {
-    max-width: 100%; /* Adjust the size as needed */
+    max-width: 100%; 
     height: auto;
     margin-bottom: 20px;
 }
@@ -426,7 +429,8 @@ tr:nth-child(even) {
 }
 
 .checkout-button {
-    background-color: #28a745; /* Green color for checkout button */
+    /* Green color for checkout button */
+    background-color: #28a745; 
 }
 
 .checkout-button:hover {
@@ -434,7 +438,8 @@ tr:nth-child(even) {
 }
 
 .continue-shopping {
-    background-color: #f8f9fa; /* Light color for continue shopping button */
+    /* Light color for continue shopping button */
+    background-color: #f8f9fa; 
     color: #333;
 }
 
@@ -443,41 +448,47 @@ tr:nth-child(even) {
 }
 
 .order-confirmation {
-    max-width: 600px; /* Adjust width as needed */
+    max-width: 600px; 
     margin: auto;
     padding: 20px;
-    background-color: #fff; /* For contrast against body background */
+    /* For contrast against body background */
+    background-color: #fff; 
     text-align: center;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .order-confirmation h1 {
-    color: #28a745; /* Green color for success */
+    /* Green color for success */
+    color: #28a745; 
     margin-bottom: 20px;
 }
 
 .order-confirmation p {
-    font-size: 16px; /* Adjust font size as needed */
-    line-height: 1.6; /* For better readability */
+    font-size: 16px;
+     /* For better readability */ 
+    line-height: 1.6;
     margin-bottom: 20px;
 }
 
 .order-confirmation ul {
-    list-style-type: none; /* Removes default list styling */
+     /* Removes default list styling */
+    list-style-type: none;
     padding-left: 0;
 }
 
 .order-confirmation li {
-    padding: 5px 0; /* Space between list items */
+    /* Space between list items */
+    padding: 5px 0; 
 }
 
 /* Next Steps Styles */
 .next-steps {
-    max-width: 600px; /* Adjust width as needed */
+    max-width: 600px; 
     margin: 40px auto;
     padding: 20px;
-    background-color: #f8f9fa; /* Light background for the next steps section */
+    /* Light background for the next steps section */
+    background-color: #f8f9fa; 
     text-align: center;
     border-radius: 5px;
 }
@@ -487,7 +498,8 @@ tr:nth-child(even) {
 }
 
 .next-steps ul {
-    list-style-type: none; /* Removes default list styling */
+     /* Removes default list styling */
+    list-style-type: none;
     padding-left: 0;
 }
 
@@ -505,6 +517,53 @@ tr:nth-child(even) {
 .next-steps li a:hover {
     background-color: #0056b3;
 }
+
+/* Track Order Styles */
+.track-order {
+    max-width: 600px; 
+    margin: auto;
+    padding: 20px;
+    background-color: #fff; 
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.track-order h1 {
+    color: #007bff; 
+    margin-bottom: 20px;
+}
+
+.order-details h2 {
+    margin-bottom: 10px;
+}
+
+.order-details p {
+    font-size: 16px; 
+    line-height: 1.6; 
+    margin-bottom: 10px;
+}
+
+/* Additional Links Styles */
+.additional-links {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.additional-links a {
+    display: inline-block;
+    background-color: #f8f9fa; 
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.additional-links a:hover {
+    background-color: #e2e6ea;
+}
+
 
 
 /* Responsive Design */
@@ -527,19 +586,26 @@ tr:nth-child(even) {
 
 @media (max-width: 768px) {
     .products {
-        flex-basis: calc(50% - 40px); /* Two items per row */
+        flex-basis: calc(50% - 40px); 
     }
 }
 
 @media (max-width: 480px) {
     .products {
-        flex-basis: 100%; /* One item per row */
+        flex-basis: 100%; 
     }
 }
 
 @media (max-width: 768px) {
     .order-confirmation, .next-steps {
-        width: 90%; /* Adjust width for smaller screens */
+        width: 90%; 
+        margin: 20px auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .track-order, .additional-links {
+        width: 90%; 
         margin: 20px auto;
     }
 }
