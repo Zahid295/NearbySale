@@ -1,6 +1,13 @@
 from flask_admin import Admin
+from flask_login import current_user
 from flask_admin.contrib.sqla import ModelView
 from .models import db, User, Product, Order, OrderItems
+
+
+# Secure model view
+class SecureModelView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.role == 'admin'
 
 # Initialize Flask-Admin instance
 admin = Admin(name='FurnitureStore', template_mode='bootstrap3')
