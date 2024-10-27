@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_migrate import Migrate
 from .extensions import login_manager
-from config import DATABASE_URL, SECRET_KEY 
+import os 
 from .routes import routes_blueprint
 from .database import db
 from .admin import init_admin
@@ -9,9 +9,9 @@ from .admin import init_admin
 
 def create_app():
     app = Flask(__name__)
-    app.config['DATABASE_URL'] = DATABASE_URL
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = SECRET_KEY
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS') == 'False'
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
     db.init_app(app)
     Migrate(app, db)
