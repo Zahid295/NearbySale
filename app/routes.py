@@ -123,7 +123,12 @@ def add_to_cart(product_id):
                 break
         else:
             # Add the new item to the session cart
-            cart_items.append({'product_id': product_id, 'quantity': quantity, 'price': product.price})
+            cart_items.append({
+                'product_id': product_id,
+                'name': product.name,
+                'quantity': quantity,
+                'price': product.price,
+            })
         session['cart_items'] = cart_items
         flash('Product added to cart successfully!', 'info')
 

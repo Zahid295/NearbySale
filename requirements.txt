@@ -25,7 +25,6 @@ mypy-extensions==1.0.0
 packaging==23.2
 pathspec==0.11.2
 platformdirs==3.11.0
-psycopg2==2.9.9
 psycopg2-binary==2.9.9
 pycodestyle==2.11.1
 pymongo==4.8.0
